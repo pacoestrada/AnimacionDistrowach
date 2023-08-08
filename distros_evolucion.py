@@ -1,45 +1,52 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
+import numpy as np
+from matplotlib import animation
 
-# Cargar datos
+# Leemos el archivo CSV
 df = pd.read_csv("DistrosTiempo.csv")
 
-# Preparar figura y eje
-fig, ax = plt.subplots(figsize=(10, 8))
-colors = plt.cm.Paired(range(len(df.columns)-1))
+n_observations = 10
 
-def update(num):
+fig, ax = plt.subplots(figsize=(10, 5))
+
+font = {
+    'weight': 'normal',
+    'size': 15,
+    'color': 'lightgray'
+}
+
+years = df['Año'].unique()
+
+label = ax.text(0.95, 0.20, years[0],
+                horizontalalignment='right',
+                verticalalignment='top',
+                transform=ax.transAxes,
+                fontdict=font)
+
+colors = plt.cm.tab20c(np.linspace(0, 1, n_observations))
+
+def update_barchart_race(i):
+    year = years[i]
+    data_temp = df[df['Año'] == year].drop(columns='Año').T
+    data_temp.columns = ['Value']
+    data_temp['Ranking'] = data_temp['Value'].rank(ascending=False)
+    data_temp = data_temp.sort_values('Ranking').head(n_observations)
+
     ax.clear()
-    year = df['Año'].iloc[num]
-    data = df.iloc[num, 1:].reset_index()
-    data.columns = ["Distro", "Rank"]
-    
-    # Ordenamos por posición
-    data = data.sort_values("Rank").reset_index(drop=True)
-    
-    # Usamos barras horizontales
-    bars = ax.barh(data["Rank"], data["Rank"], color=colors, height=0.6)
-    
-    # Añadir el nombre de las distribuciones dentro de las barras
-    for bar, distro in zip(bars, data["Distro"]):
-        ax.text(bar.get_width() - 0.5, bar.get_y() + bar.get_height()/2, 
-                distro, va='center', ha='right', color='white', fontsize=10)
-    
-    ax.set_title(f'Distribuciones de Linux en el año {year}')
-    
-    # Ajustamos el rango del eje y y x
-    ax.set_xlim(0, 10.5)  # Las posiciones son del 1 al 10
-    ax.set_ylim(10.5, 0.5)  # Las posiciones son del 1 al 10, invertimos para que el 1 esté arriba
-    ax.set_xlabel("Ranking")
-    ax.set_ylabel("Ranking Actual")
-    ax.set_xticks(range(1, 11))
-    ax.set_xticklabels([f"{i}º" for i in range(1, 11)])
-    ax.set_yticks(range(1, 11))
-    ax.set_yticklabels([f"{i}º" for i in range(1, 11)])
+    ax.barh(y=data_temp['Ranking'],
+            width=data_temp['Value'],
+            tick_label=data_temp.index,
+            color=colors)
 
-    plt.tight_layout()
+    ax.text(0.95, 0.20, year,
+            horizontalalignment='right',
+            verticalalignment='top',
+            transform=ax.transAxes,
+            fontdict=font)
+    
+    ax.set_ylim(ax.get_ylim()[::-1])  # Revert axis
 
-# La duración del intervalo determina la velocidad de la animación
-ani = animation.FuncAnimation(fig, update, frames=len(df), repeat=False, interval=1500)
+anim = animation.FuncAnimation(fig, update_barchart_race, frames=len(years), repeat=False)
+anim.save('distros_barchart_race.gif', writer="pillow", fps=1)
 plt.show()
