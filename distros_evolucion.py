@@ -19,7 +19,7 @@ font = {
 years = df['Año'].unique()
 
 label = ax.text(0.95, 0.20, years[0],
-                horizontalalignment='right',
+                horizontalalignment='left',
                 verticalalignment='top',
                 transform=ax.transAxes,
                 fontdict=font)
@@ -40,7 +40,7 @@ def update_barchart_race(i):
             color=colors)
 
     ax.text(0.95, 0.20, year,
-            horizontalalignment='right',
+            horizontalalignment='left',
             verticalalignment='top',
             transform=ax.transAxes,
             fontdict=font)
