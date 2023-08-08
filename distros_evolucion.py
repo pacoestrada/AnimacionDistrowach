@@ -16,25 +16,25 @@ def update(num):
     data.columns = ["Rank", "Distro"]
     
     # Ordenamos por posición y reseteamos el índice
-    data = data.sort_values("Rank", ascending=False).reset_index(drop=True)
+    data = data.sort_values("Rank").reset_index(drop=True)
     
-    # Usamos el índice como valor para las barras y añadimos etiquetas
-    ax.barh(data.index, range(1, len(data)+1), color=colors, height=0.8)
+    # Usamos barras verticales
+    ax.bar(data.index, range(1, len(data)+1), color=colors, width=0.8)
     
-    # Añadir el nombre de las distribuciones como etiquetas en el eje y
-    ax.set_yticks(data.index)
-    ax.set_yticklabels(data["Distro"])
+    # Añadir el nombre de las distribuciones como etiquetas en el eje x
+    ax.set_xticks(data.index)
+    ax.set_xticklabels(data["Distro"], rotation=45, ha='right')
     
     ax.set_title(f'Distribuciones de Linux en el año {year}')
-    ax.set_xlabel("Ranking")
+    ax.set_ylabel("Ranking")
     
-    # Ajustamos el rango del eje x
-    ax.set_xlim(0, len(df.columns))
+    # Ajustamos el rango del eje y
+    ax.set_ylim(0, len(df.columns))
     
     plt.tight_layout()
 
-ani = animation.FuncAnimation(fig, update, frames=len(df), repeat=False)
+# La duración del intervalo determina la velocidad de la animación: un valor más alto la ralentizará
+ani = animation.FuncAnimation(fig, update, frames=len(df), repeat=False, interval=1500)
 plt.show()
-
 
 
