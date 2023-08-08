@@ -17,9 +17,10 @@ bcr.bar_chart_race(df_bcr,
                    title='Ranking de Distribuciones por Año', 
                    n_bars=10, 
                    sort='desc',
+                   fixed_order=True,
                    fixed_max=True,
                    cmap='dark24',
-                   bar_label_size=7,
+                   bar_label_size=10,  # Ajustar el tamaño de la etiqueta para que sea claramente visible
                    tick_label_size=7,
                    period_length=1000,  # 1000 milisegundos = 1 segundo por año, puedes ajustarlo
                    filename='barchart_race.mp4',  # Esto guardará el video en formato .mp4
