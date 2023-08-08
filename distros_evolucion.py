@@ -14,29 +14,32 @@ def update(num):
     year = df['Año'].iloc[num]
     data = df.iloc[num, 1:].reset_index()
     data.columns = ["Distro", "Rank"]
+    
+    # Ordenamos por posición
     data = data.sort_values("Rank").reset_index(drop=True)
     
     # Usamos barras horizontales
-    bars = ax.barh(data.index, data["Rank"], color=colors, height=0.8)
+    bars = ax.barh(data["Rank"], data["Rank"], color=colors, height=0.6)
     
     # Añadir el nombre de las distribuciones dentro de las barras
     for bar, distro in zip(bars, data["Distro"]):
         ax.text(bar.get_width() - 0.5, bar.get_y() + bar.get_height()/2, 
                 distro, va='center', ha='right', color='white', fontsize=10)
     
-    # Ajustamos el rango del eje y y x
-    ax.set_ylim(-1, len(df.columns)-1)
-    ax.set_xlim(10, 0)  # Las posiciones son del 1 al 10, invertimos para que el 1 esté a la izquierda
-    
     ax.set_title(f'Distribuciones de Linux en el año {year}')
+    
+    # Ajustamos el rango del eje y y x
+    ax.set_xlim(0, 10.5)  # Las posiciones son del 1 al 10
+    ax.set_ylim(10.5, 0.5)  # Las posiciones son del 1 al 10, invertimos para que el 1 esté arriba
     ax.set_xlabel("Ranking")
-    ax.set_yticks(range(10))
-    ax.set_yticklabels([f"{i+1}º" for i in range(10)])
+    ax.set_ylabel("Ranking Actual")
+    ax.set_xticks(range(1, 11))
+    ax.set_xticklabels([f"{i}º" for i in range(1, 11)])
+    ax.set_yticks(range(1, 11))
+    ax.set_yticklabels([f"{i}º" for i in range(1, 11)])
 
     plt.tight_layout()
 
-# La duración del intervalo determina la velocidad de la animación: un valor más alto la ralentizará
+# La duración del intervalo determina la velocidad de la animación
 ani = animation.FuncAnimation(fig, update, frames=len(df), repeat=False, interval=1500)
 plt.show()
-
-
