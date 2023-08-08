@@ -21,10 +21,9 @@ bcr.bar_chart_race(df_bcr,
                    cmap='dark24',
                    bar_label_size=7,
                    tick_label_size=7,
-                   period_length=100,  # 1000 milisegundos = 1 segundo por año, pero puedes ajustarlo
+                   period_length=1000,  # 1000 milisegundos = 1 segundo por año, puedes ajustarlo
                    filename='barchart_race.mp4',  # Esto guardará el video en formato .mp4
                    filter_column_colors=True,
-                   bar_label_position='inside',
                    period_label={'x': .98, 'y': .3, 'ha': 'right', 'va': 'center'},
                    period_summary_func=lambda v, r: {'x': .98, 'y': .18, 
                                                     's': f'Year: {r.index.max()}', 
