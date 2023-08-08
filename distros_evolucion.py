@@ -48,5 +48,5 @@ def update_barchart_race(i):
     ax.set_ylim(ax.get_ylim()[::-1])  # Revert axis
 
 anim = animation.FuncAnimation(fig, update_barchart_race, frames=len(years), repeat=False)
-anim.save('distros_barchart_race.gif', writer="pillow", fps=1)
+anim.save('distros_barchart_race.gif', writer="pillow", fps=0.5)
 plt.show()
