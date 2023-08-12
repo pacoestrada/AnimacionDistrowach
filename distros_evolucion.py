@@ -40,7 +40,7 @@ def update(year):
             position_value = data_year.loc[distro, 'Posición']
             position = position_value.iloc[0] if hasattr(position_value, 'iloc') else position_value            
             ax.barh(position, 10 - position + 1, color=color, edgecolor='white', height=0.8)
-            ax.text(5, position, distro, ha='center', va='center', fontsize=12, color='white')
+            ax.text(10.5 - position, position, distro, ha='left', va='center', fontsize=12, color='black')
     ax.set_xlim(0, 10)
     ax.set_ylim(10.5, 0.5)
     ax.set_title('Ranking de Distribuciones Linux por Año', fontsize=20)
@@ -51,10 +51,10 @@ def update(year):
 fig, ax = plt.subplots(figsize=(12, 8))
 
 # Crear la animación
-ani = FuncAnimation(fig, update, frames=df['Año'].unique(), repeat=False, interval=2000)
+ani = FuncAnimation(fig, update, frames=df['Año'].unique(), repeat=False, interval=1000)
 
 # Guardar la animación (opcional)
-writer = PillowWriter(fps=0.5)
+writer = PillowWriter(fps=1)                      
 ani.save("barchart_race.gif", writer=writer)
 
 plt.show()
