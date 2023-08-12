@@ -36,12 +36,12 @@ def update(year):
         position_data = data_year[data_year['Distribución'] == distro]
         if not position_data.empty:
             position = position_data['Posición'].values[0]
-            ax.barh(position, position, color=color, edgecolor='white', height=0.8)
+            ax.barh(position, 11-position, color=color, edgecolor='white', height=0.8, left=1)
             if position > 4:
-                ax.text(position-0.5, position, distro, ha='right', va='center', fontsize=10, color='white')
+                ax.text(10-position+0.5, position, distro, ha='right', va='center', fontsize=10, color='white')
             else:
-                ax.text(position+0.5, position, distro, ha='left', va='center', fontsize=10, color='black')
-    ax.set_xlim(10, 1)
+                ax.text(10-position+0.5, position, distro, ha='left', va='center', fontsize=10, color='black')
+    ax.set_xlim(1, 10)
     ax.set_ylim(10.5, 0.5)
     ax.set_title('Ranking de Distribuciones Linux por Año', fontsize=20)
     ax.text(5.5, 11, f'Año: {year}', ha='center', fontsize=15, fontweight='bold')
@@ -58,3 +58,4 @@ writer = PillowWriter(fps=1)
 ani.save("barchart_race.gif", writer=writer)
 
 plt.show()
+
