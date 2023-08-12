@@ -39,9 +39,9 @@ def update(year):
         if distro in data_year.index:
             position_value = data_year.loc[distro, 'Posición']
             position = position_value.iloc[0] if hasattr(position_value, 'iloc') else position_value            
-            ax.barh(position, position, color=color, edgecolor='white', height=0.8)
+            ax.barh(position, 10 - position + 1, color=color, edgecolor='white', height=0.8)
             ax.text(5, position, distro, ha='center', va='center', fontsize=12, color='white')
-    ax.set_xlim(10, 1)
+    ax.set_xlim(0, 10)
     ax.set_ylim(10.5, 0.5)
     ax.set_title('Ranking de Distribuciones Linux por Año', fontsize=20)
     ax.text(5, 11.5, f'Año: {year}', ha='center', fontsize=15, fontweight='bold')
