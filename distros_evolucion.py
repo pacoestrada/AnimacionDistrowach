@@ -48,7 +48,7 @@ def update(year):
     ax.axis('off')
 
 # Preparar la figura y ejes
-fig, ax = plt.subplots(figsize=(12, 8))
+fig, ax = plt.subplots(figsize=(11, 8))
 
 # Crear la animación
 ani = FuncAnimation(fig, update, frames=df['Año'].unique(), repeat=False, interval=1000)
